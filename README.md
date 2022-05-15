@@ -1,109 +1,21 @@
-*Psst — looking for a more complete solution? Check out [SvelteKit](https://kit.svelte.dev), the official framework for building web applications of all sizes, with a beautiful development experience and flexible filesystem-based routing.*
+## Inspiration
+Sometimes, seeing a doctor when you have symptoms is difficult. Oftentimes, doctor offices require you to book appointments days in advance, and are not open 24/7. Furthermore, walk in clinics and hospitals often have long wait times to see a doctor, just to find out what is causing your symptoms. So, what if you were able to just figure out the cause by going to a website, from the comfort of your own home? This is where virtuagnosis comes in.
 
-*Looking for a shareable component template instead? You can [use SvelteKit for that as well](https://kit.svelte.dev/docs#packaging) or the older [sveltejs/component-template](https://github.com/sveltejs/component-template)*
+## What it does
+Users can select their symptoms via checkbuttons immediately upon loading into the website. Symptoms are convieniently grouped by body part, allowing users to easily find them. Once a user has selected all their symptoms, clicking a "predict disease" button will run a machine learning algorithm to generate a probable list of diseases they may have, which are displayed as cards below the button. The cards will contain basic information about the disease, as well as the full list of symptoms associated with it. There will always be 5 probable diseases generated each time the predict disease button is clicked, in case some of the predictions turn out to be inaccurate (our ml wasn't perfect).
 
----
+## How we built it
+We used the Svelte.js framework for the front end, along with CSS styling for the webpages. Our backend uses a flask server to get disease and symptom data, and to call our machine learning algorithm when a user presses the predict disease button. The machine learning algorithm compares the symptoms of each disease with the user entered symptoms, and uses the euclidean distance logic of K nearest neighbors, plus a scoring algorithm to determine the five diseases that the user most likely might have.
 
-# svelte app
+## Challenges we ran into
+Our machine learning algorithm needed a lot of tweaking to generate optimal results. We also had to diverge from the basic KNN algorithm in order to do so. Another big challenge was surprisingly the front end. We were relatively new to Svelte (and JavaScript in general), so we had trouble figuring out things that turned out to be slightly trivial in the end. However, this is naturally part of the learning experience. Also, we couldn't CSS properly apparently :((
 
-This is a project template for [Svelte](https://svelte.dev) apps. It lives at https://github.com/sveltejs/template.
+## Accomplishments that we're proud of and what we learned
+- We made the app in 12 hours. We initially had a different idea that we started on during the first day of the hackathon, but then decided to ditch that for this idea due to this one being much more practical
+- We learned how to make animated objects in web apps. Our app has smooth animations and transitions, something that we completely skipped out on in our earlier projects
+- We learned a lot about front end web development, and the basics of machine learning
 
-To create a new project based on this template using [degit](https://github.com/Rich-Harris/degit):
-
-```bash
-npx degit sveltejs/template svelte-app
-cd svelte-app
-```
-
-*Note that you will need to have [Node.js](https://nodejs.org) installed.*
-
-
-## Get started
-
-Install the dependencies...
-
-```bash
-cd svelte-app
-npm install
-```
-
-...then start [Rollup](https://rollupjs.org):
-
-```bash
-npm run dev
-```
-
-Navigate to [localhost:8080](http://localhost:8080). You should see your app running. Edit a component file in `src`, save it, and reload the page to see your changes.
-
-By default, the server will only respond to requests from localhost. To allow connections from other computers, edit the `sirv` commands in package.json to include the option `--host 0.0.0.0`.
-
-If you're using [Visual Studio Code](https://code.visualstudio.com/) we recommend installing the official extension [Svelte for VS Code](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode). If you are using other editors you may need to install a plugin in order to get syntax highlighting and intellisense.
-
-## Building and running in production mode
-
-To create an optimised version of the app:
-
-```bash
-npm run build
-```
-
-You can run the newly built app with `npm run start`. This uses [sirv](https://github.com/lukeed/sirv), which is included in your package.json's `dependencies` so that the app will work when you deploy to platforms like [Heroku](https://heroku.com).
-
-
-## Single-page app mode
-
-By default, sirv will only respond to requests that match files in `public`. This is to maximise compatibility with static fileservers, allowing you to deploy your app anywhere.
-
-If you're building a single-page app (SPA) with multiple routes, sirv needs to be able to respond to requests for *any* path. You can make it so by editing the `"start"` command in package.json:
-
-```js
-"start": "sirv public --single"
-```
-
-## Using TypeScript
-
-This template comes with a script to set up a TypeScript development environment, you can run it immediately after cloning the template with:
-
-```bash
-node scripts/setupTypeScript.js
-```
-
-Or remove the script via:
-
-```bash
-rm scripts/setupTypeScript.js
-```
-
-If you want to use `baseUrl` or `path` aliases within your `tsconfig`, you need to set up `@rollup/plugin-alias` to tell Rollup to resolve the aliases. For more info, see [this StackOverflow question](https://stackoverflow.com/questions/63427935/setup-tsconfig-path-in-svelte).
-
-## Deploying to the web
-
-### With [Vercel](https://vercel.com)
-
-Install `vercel` if you haven't already:
-
-```bash
-npm install -g vercel
-```
-
-Then, from within your project folder:
-
-```bash
-cd public
-vercel deploy --name my-project
-```
-
-### With [surge](https://surge.sh/)
-
-Install `surge` if you haven't already:
-
-```bash
-npm install -g surge
-```
-
-Then, from within your project folder:
-
-```bash
-npm run build
-surge public my-project.surge.sh
-```
+## Improvements
+- The ability to keep track of users' previous symptoms. This can be used to help improve the machine learning for that particular user, to predict diseases more accurately based on their prior reported symptoms. We will need to implement user authentication for this.
+- Improve the front end UI to maybe include a human body anatomy that is interactive. Clicking on certain parts of the body will list symptoms specific to that part, which will make it even easier for users to find their symptoms
+- Add info on possible remedies for diseases on the disease cards
